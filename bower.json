@@ -1,0 +1,17 @@
+{
+    "name": "TaskList",
+    "version": "1.0.0",
+    "authors": [
+        "Flávio André <flavioandre.fla@gmail.com>"
+    ],
+    "description": "TaskList JavaScript dependencies.",
+    "private": true,
+    "dependencies": {
+        "angular": "~1.5.6",
+        "angular-resource": "~1.5.6",
+        "jquery": "~2.1.0",
+        "angular-bootstrap": "~0.11.0",
+        "bootstrap-css-only": "3.2.0",
+        "angular-grid": "~2.0.11"
+    }
+}

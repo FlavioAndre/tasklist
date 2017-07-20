@@ -1,0 +1,99 @@
+<!DOCTYPE html>
+<!-- Declara que a raiz do elemento que permite o comportamento para ser modificado pelo Angular. -->
+<html ng-app="tasklists">
+<head>
+    <title>Lista de Tarefas</title>
+
+    <!-- build:css css/third-party.css -->
+    <!-- bower:css -->
+    <link rel="stylesheet" href="lib/dependencies/css/bootstrap.min.css" />
+    <link rel="stylesheet" href="lib/dependencies/css/ng-grid.min.css" />
+    <!-- endbower -->
+    <!-- endbuild -->
+
+    <!-- build:css css/application.css -->
+    <link rel="stylesheet" type="text/css" href="css/style.css"/>
+    <!-- endbuild -->
+
+    <!-- build:js lib/third-party.js -->
+    <!-- bower:js -->
+    <script src="lib/dependencies/angular.min.js"></script>
+    <script src="lib/dependencies/angular-resource.min.js"></script>
+    <script src="lib/dependencies/jquery.min.js"></script>
+    <script src="lib/dependencies/ui-bootstrap-tpls.min.js"></script>
+    <script src="lib/dependencies/ng-grid.min.js"></script>
+    <!-- endbower -->
+    <!-- endbuild -->
+
+    <!-- build:js script/all.js -->
+    <script src="script/task.js"></script>
+    <!-- endbuild -->
+</head>
+
+<body>
+
+<h1>Aplicação TaskList</h1>
+
+<br/>
+
+<div class="message" ng-controller="alertMessagesController">
+    <alert ng-repeat="alert in alerts" type="{{alert.type}}" close="closeAlert($index)">{{alert.msg}}</alert>
+</div>
+
+<br>
+
+<div class="grid" ng-controller="tasklistsListController">
+    <div>
+        <h3>Lista de tarefas</h3>
+    </div>
+
+    
+    <div class="gridStyle" ng-grid="gridOptions"></div>
+
+    <pagination direction-links="true" boundary-links="true"
+                total-items="tasklists.totalResults" items-per-page="tasklists.pageSize"
+                ng-model="tasklists.currentPage" ng-change="refreshGrid()">
+    </pagination>
+</div>
+
+<div class="form" ng-controller="tasklistsFormController">
+       <div ng-if="task.id == null">
+        <h3>Incluir Tarefa</h3>
+    </div>
+    
+    <div ng-if="task.id != null">
+        <h3>Editar Tarefa</h3>
+    </div>
+
+    <div>
+        <form name="taskForm" ng-submit="updateTask()" novalidate>
+
+            <div class="form-group" ng-class="{'has-error' : taskForm.titulo.$invalid && taskForm.titulo.$dirty}">
+                <label for="titulo">Titulo:</label>
+                
+                <span ng-class="{'glyphicon glyphicon-ok' : taskForm.titulo.$valid && taskForm.titulo.$dirty}"></span>
+
+                <input id="titulo" name="titulo" type="text" class="form-control" maxlength="50"
+                       ng-model="task.titulo"
+                       required ng-minlength="2" ng-maxlength="50"/>
+
+                
+                <p class="help-block" ng-show="taskForm.titulo.$error.required">Coloque o Titulo.</p>
+                <p class="help-block" ng-show="taskForm.titulo.$error.minlength">O titulo deve ter ao menos 2 caracteres.</p>
+                <p class="help-block" ng-show="taskForm.titulo.$error.maxlength">O titulo não pode ter mais que 50 caracteres.</p>
+            </div>
+
+            
+
+           
+            
+            <div class="buttons">
+                <button type="button" class="btn btn-primary" ng-click="clearForm()">Clear</button>
+                <button type="submit" class="btn btn-primary" ng-disabled="taskForm.$invalid">Save</button>
+            </div>
+        </form>
+    </div>
+</div>
+
+</body>
+</html>
